@@ -1,0 +1,44 @@
+/* map-marker.css */
+.marker-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  /* Quan trọng: Chiều rộng/cao bằng 0 để Mapbox xác định đúng tọa độ gốc */
+  width: 0;
+  height: 0;
+}
+
+/* Hào quang: Bây giờ nó là "bóng ma", không đẩy ai cả */
+.is-unlocked .marker-glow {
+  position: absolute;
+  top: -16px; /* Căn chỉnh để tâm hào quang nằm đúng chỗ cái ghim */
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.4) 0%, rgba(250, 204, 21, 0) 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%); /* Đưa tâm hào quang về giữa */
+  z-index: -1;
+  pointer-events: none; /* Không cản trở chuột bấm vào ghim */
+  animation: pulse 3s infinite ease-in-out;
+}
+
+.marker-icon {
+  position: absolute;
+  bottom: 0; /* Ép cái chân ghim nằm đúng tọa độ */
+  transform: translateX(-50%); /* Căn giữa theo chiều ngang */
+  color: #facc15;
+  filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.8));
+}
+
+.marker-label {
+  position: absolute;
+  top: 5px; /* Hiện tên ở dưới ghim */
+  transform: translateX(-50%);
+  color: white;
+  font-size: 10px;
+  background: rgba(0,0,0,0.6);
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}

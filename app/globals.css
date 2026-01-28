@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Thêm dòng này để ẩn con trỏ chuột mặc định, nhường sân khấu cho Ngôi sao */
+body {
+  background-color: #050505; /* Màu đen sâu thẳm (Dark Mode) */
+  color: #ffffff;
+}
+
+a, button {
+  cursor: pointer;
+}
