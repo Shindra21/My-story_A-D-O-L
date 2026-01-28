@@ -1,44 +1,60 @@
-/* map-marker.css */
-.marker-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  /* Quan trọng: Chiều rộng/cao bằng 0 để Mapbox xác định đúng tọa độ gốc */
-  width: 0;
-  height: 0;
+/* app/styles/map-marker.css */
+
+/* 1. Vỏ ngoài Marker (Do Mapbox quản lý vị trí) */
+.rpg-marker {
+  cursor: pointer;
+  z-index: 1;
+  /* Quan trọng: Để position absolute hoặc relative để con bên trong định vị theo */
+  position: relative; 
 }
 
-/* Hào quang: Bây giờ nó là "bóng ma", không đẩy ai cả */
-.is-unlocked .marker-glow {
-  position: absolute;
-  top: -16px; /* Căn chỉnh để tâm hào quang nằm đúng chỗ cái ghim */
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, rgba(250, 204, 21, 0.4) 0%, rgba(250, 204, 21, 0) 70%);
-  border-radius: 50%;
-  transform: translate(-50%, -50%); /* Đưa tâm hào quang về giữa */
-  z-index: -1;
-  pointer-events: none; /* Không cản trở chuột bấm vào ghim */
-  animation: pulse 3s infinite ease-in-out;
+/* Khi được active (hover), đưa lên lớp trên cùng */
+.rpg-marker.active {
+  z-index: 100 !important;
 }
 
+/* 2. Icon bên trong (Do mình quản lý hiệu ứng) */
 .marker-icon {
-  position: absolute;
-  bottom: 0; /* Ép cái chân ghim nằm đúng tọa độ */
-  transform: translateX(-50%); /* Căn giữa theo chiều ngang */
-  color: #facc15;
-  filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.8));
+  font-size: 30px;
+  /* Đổ bóng nhẹ để tách biệt khỏi nền bản đồ */
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+  /* Hiệu ứng chuyển động mượt mà */
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Animation nhún nhảy mặc định */
+  animation: float 3s ease-in-out infinite;
+  /* Đảm bảo icon nằm giữa tâm marker */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.marker-label {
-  position: absolute;
-  top: 5px; /* Hiện tên ở dưới ghim */
-  transform: translateX(-50%);
-  color: white;
-  font-size: 10px;
-  background: rgba(0,0,0,0.6);
-  padding: 2px 8px;
-  border-radius: 10px;
-  white-space: nowrap;
+/* 3. KHI HOVER: Phóng to icon con, thêm hào quang */
+.rpg-marker.active .marker-icon {
+  transform: scale(1.4) translateY(-10px);
+  filter: drop-shadow(0 0 15px #00ffcc);
+}
+
+/* --- CÁC ANIMATION --- */
+
+/* Nhún nhảy */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Hiệu ứng hiện Box thông tin (Fade In + Bay lên) */
+@keyframes fadeInUp {
+  from { 
+      opacity: 0; 
+      transform: translate(-50%, calc(-90% - 20px)) scale(0.9); 
+  }
+  to { 
+      opacity: 1; 
+      transform: translate(-50%, calc(-100% - 20px)) scale(1); 
+  }
+}
+
+/* Hiệu ứng vệt sáng quét qua ảnh (Shimmer) */
+@keyframes shimmer {
+  100% { left: 200%; }
 }
