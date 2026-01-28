@@ -76,15 +76,23 @@ export default function MapSection() {
         el.classList.remove('active');
       });
 
+     
+
       // Click
       el.addEventListener('click', () => {
           map.current?.flyTo({ center: loc.coordinates, zoom: 12, speed: 1.5 });
       });
 
       new mapboxgl.Marker(el).setLngLat(loc.coordinates).addTo(map.current!);
+      
     });
+     return () => {
+        if (map.current) {
+            map.current.remove(); // Xóa map khỏi bộ nhớ
+            map.current = null;
+        }
 
-  }, []);
+  }}, []);
 
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden">
